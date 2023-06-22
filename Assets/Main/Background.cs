@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Background : MonoBehaviour
+{
+
+    [SerializeField] private Vector2 effectMultiplier;
+
+    private Transform cameraTransform;
+    private Vector3 lastcameraPosition;
+    private float textureUnitSizeX;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        cameraTransform = Camera.main.transform;
+        lastcameraPosition = cameraTransform.position;
+        Sprite sprite = GetComponent<SpriteRenderer>().sprite;
+        Texture2D texture = sprite.texture;
+        textureUnitSizeX = texture.width/sprite.pixelsPerUnit;
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+       Vector3 deltaMovement = cameraTransform.position-lastcameraPosition;
+       transform.position += new Vector3(deltaMovement.x*effectMultiplier.x,deltaMovement.y * effectMultiplier.y,0);
+       lastcameraPosition = cameraTransform.position;
+
+       if(Mathf.Abs(cameraTransform.position.x - transform.position.x) >= textureUnitSizeX)
+       {
+            float offsetPositionX = (cameraTransform.position.x - transform.position.x)%textureUnitSizeX;
+            transform.position = new Vector3(cameraTransform.position.x+offsetPositionX,transform.position.y);
+       } 
+    }
+}
