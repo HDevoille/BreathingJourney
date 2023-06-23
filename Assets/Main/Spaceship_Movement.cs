@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Spaceship_Movement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Spaceship_Movement : MonoBehaviour
     private NetworkStream stream;
     private Rigidbody2D rb;
     private float moveSpeed = 10f;
+    public GameObject Text;
+    public TMP_Text SpeedInfo;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,9 @@ public class Spaceship_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         client = new TcpClient("localhost", 12345);
         stream = client.GetStream();
+
+        SpeedInfo = Text.GetComponent<TMP_Text>();
+        SpeedInfo.text = "0";
 
         StartCoroutine(ReadMessages());
     }
@@ -41,6 +47,7 @@ public class Spaceship_Movement : MonoBehaviour
                     if(jump > 0.0)
                     {
                         rb.velocity = new Vector2(jump*moveSpeed,0f);
+                        SpeedInfo.text = jump.ToString();
                     }
                 }
 
