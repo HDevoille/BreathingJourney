@@ -24,7 +24,7 @@ public class Spaceship_Movement : MonoBehaviour
         stream = client.GetStream();
 
         SpeedInfo = Text.GetComponent<TMP_Text>();
-        SpeedInfo.text = "0";
+        SpeedInfo.text = "Speed : 0.0 Breathing rythm : 0.0";
 
         StartCoroutine(ReadMessages());
     }
@@ -46,8 +46,9 @@ public class Spaceship_Movement : MonoBehaviour
                     float jump = try_float(number);
                     if(jump > 0.0)
                     {
-                        rb.velocity = new Vector2(jump*moveSpeed,0f);
-                        SpeedInfo.text = jump.ToString();
+                        float speed = jump * moveSpeed;
+                        rb.velocity = new Vector2(speed,0f);
+                        SpeedInfo.text = "Speed : " + speed.ToString() + " Breathing rythm : " + jump.ToString();
                     }
                 }
 
